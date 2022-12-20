@@ -3,27 +3,25 @@ import requests
 import re
 from bs4 import BeautifulSoup
 import pyimgur
-import random
-import urllib
 from linebot import LineBotApi, WebhookParser
-from linebot.models import MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage, ImageCarouselColumn, ImageCarouselTemplate, ButtonsTemplate, MessageTemplateAction, URITemplateAction, ImageSendMessage, CarouselTemplate, CarouselColumn
-listName =["Emtpy1","Empty2","Empty3","Empty4","Empty5"]
-listPicUrl =["https://i.imgur.com/5gGbzht.jpg",
-             "https://i.imgur.com/5gGbzht.jpg",
-             "https://i.imgur.com/5gGbzht.jpg",
-             "https://i.imgur.com/5gGbzht.jpg",
-             "https://i.imgur.com/5gGbzht.jpg"]
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage, ImageCarouselColumn, ImageCarouselTemplate, ButtonsTemplate, MessageTemplateAction, URITemplateAction, ImageSendMessage, CarouselTemplate, CarouselColumn
+listName = ["Emtpy1", "Empty2", "Empty3", "Empty4", "Empty5"]
+listPicUrl = ["https://i.imgur.com/5gGbzht.jpg",
+              "https://i.imgur.com/5gGbzht.jpg",
+              "https://i.imgur.com/5gGbzht.jpg",
+              "https://i.imgur.com/5gGbzht.jpg",
+              "https://i.imgur.com/5gGbzht.jpg"]
 
-memeurl_list = ["https://memes.tw/wtf","https://memes.tw/wtf?contest=11","https://memes.tw/wtf?contest=6","https://memes.tw/wtf?contest=3106"]
-
+memeurl_list = ["https://memes.tw/wtf", "https://memes.tw/wtf?contest=11",
+                "https://memes.tw/wtf?contest=6", "https://memes.tw/wtf?contest=3106"]
 
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
 YOUTUBE_API_KEY = "AIzaSyBVOrQgfote9RtizxMfg_x2m3P6xjp9dJY"
 
+
 def send_text_message(reply_token, text):
     line_bot_api = LineBotApi(channel_access_token)
     line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
-
     return "OK"
 
 
@@ -31,11 +29,11 @@ def send_button_message(reply_token, title, text, btn, url):
     line_bot_api = LineBotApi(channel_access_token)
     message = TemplateSendMessage(
         alt_text='button template',
-        template = ButtonsTemplate(
-            title = title,
-            text = text,
-            thumbnail_image_url = url,
-            actions = btn
+        template=ButtonsTemplate(
+            title=title,
+            text=text,
+            thumbnail_image_url=url,
+            actions=btn
         )
     )
     line_bot_api.reply_message(reply_token, message)
@@ -121,8 +119,7 @@ def send_button_carousel(reply_token):
                         MessageTemplateAction(
                             label='替換[' + listName[3] + ']',
                             text='替換梗圖4'
-                        )
-                        ,
+                        ),
                         MessageTemplateAction(
                             label='返回主選單',
                             text='返回主選單'
@@ -155,6 +152,7 @@ def send_button_carousel(reply_token):
     )
     line_bot_api.reply_message(reply_token, carousel_template_message)
 
+
 def send_image_message(reply_token, url):
     line_bot_api = LineBotApi(channel_access_token)
     message = ImageSendMessage(
@@ -174,10 +172,12 @@ def uploadingpic(event):
     url = glucose_graph('1044fa0c6494e8c', local_save)
     return url
 
+
 def glucose_graph(client_id, imgpath):
     im = pyimgur.Imgur(client_id)
     upload_image = im.upload_image(imgpath, title="Uploaded with PyImgur")
     return upload_image.link
+
 
 def searchmeme(event, webtype):
     print("in search")
@@ -187,7 +187,7 @@ def searchmeme(event, webtype):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
     }
     url = memeurl_list[webtype]
-    r = requests.get(url, headers = headers)
+    r = requests.get(url, headers=headers)
     print(r.status_code)
     soup = BeautifulSoup(r.text, "html.parser")
     pics = soup.find_all(class_=re.compile("^sensitive-content"))
@@ -202,15 +202,16 @@ def searchmeme(event, webtype):
     col = []
     for i in range(5):
         c = ImageCarouselColumn(
-            image_url = mypic_list[i],
-            action = URITemplateAction(
-                label = '點我進入網站',
-                uri = myurl_list[i]
+            image_url=mypic_list[i],
+            action=URITemplateAction(
+                label='點我進入網站',
+                uri=myurl_list[i]
             )
         )
         col.append(c)
 
     send_carousel_message(event.reply_token, col)
+
 
 def send_carousel_message(reply_token, col):
     line_bot_api = LineBotApi(channel_access_token)

@@ -2,7 +2,7 @@ import os
 import globalvar
 from transitions.extensions import GraphMachine
 
-from utils import send_text_message,send_button_message,send_button_carousel,send_image_message,uploadingpic,searchmeme,listName,listPicUrl
+from utils import send_text_message, send_button_message, send_button_carousel, send_image_message, uploadingpic, searchmeme, listName, listPicUrl
 from linebot.models import ImageCarouselColumn, URITemplateAction, MessageTemplateAction
 
 OnpicX = 0
@@ -19,6 +19,7 @@ class TocMachine(GraphMachine):
     def is_going_to_mypic(self, event):
         text = event.message.text
         return text == "我的梗圖庫"
+
     def is_going_to_search(self, event):
         text = event.message.text
         return text == "查看網站[Meme梗圖倉庫]"
@@ -65,7 +66,6 @@ class TocMachine(GraphMachine):
                 ok = False
         return ok
 
-
     def is_going_to_picname(self, event):
         global OnpicX
         text = event.message.text
@@ -100,7 +100,7 @@ class TocMachine(GraphMachine):
 
     def is_going_to_savepic(self, event):
         print("enter savepic")
-        if ( event.message.type == "image" ):
+        if (event.message.type == "image"):
             listPicUrl[OnpicX] = uploadingpic(event)
             globalvar.set("mode", 0)
             print(globalvar.get("mode"))
@@ -163,7 +163,6 @@ class TocMachine(GraphMachine):
         searchmeme(event, globalvar.get("webtype"))
         return "OK"
 
-
     def on_enter_getpic(self, event):
         global OnpicX
         send_image_message(event.reply_token, listPicUrl[OnpicX])
@@ -193,8 +192,3 @@ class TocMachine(GraphMachine):
         url = 'https://i.imgur.com/KIudu08.jpeg'
         send_button_message(event.reply_token, title, text, btn, url)
         self.go_back(event)
-
-
-
-
-

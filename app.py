@@ -19,7 +19,8 @@ globalvar.set("enterstart", 0)
 print(globalvar.get("mode"))
 
 machine = TocMachine(
-    states=["user","start","mypic", "search","searchingname","getpic","picname","changepic","savepic"],
+    states=["user", "start", "mypic", "search", "searchingname",
+            "getpic", "picname", "changepic", "savepic"],
     transitions=[
         {
             "trigger": "advance",
@@ -87,7 +88,8 @@ machine = TocMachine(
             "dest": "savepic",
             "conditions": "is_going_to_savepic",
         },
-        {"trigger": "go_back", "source": ["search", "getpic", "savepic"], "dest": "start"},
+        {"trigger": "go_back", "source": [
+            "search", "getpic", "savepic"], "dest": "start"},
     ],
     initial="user",
     auto_transitions=False,
@@ -182,18 +184,4 @@ def show_fsm():
 if __name__ == "__main__":
     port = os.environ.get("PORT", 8000)
     app.run(host="0.0.0.0", port=port, debug=True)
-
-"""        
-                            {
-                                "trigger": "advance",
-                                "source": "searchingname",
-                                "dest": "search",
-                                "conditions": "is_going_to_search",
-                            },
-                            {
-                                "trigger": "advance",
-                                "source": "searchingname",
-                                "dest": "start",
-                                "conditions": "is_going_to_start",
-                            }
-"""
+    machine.get_graph().draw("fsm.png", prog="dot", format="png")
