@@ -88,8 +88,7 @@ machine = TocMachine(
             "dest": "savepic",
             "conditions": "is_going_to_savepic",
         },
-        {"trigger": "go_back", "source": [
-            "search", "getpic", "savepic"], "dest": "start"},
+        {"trigger": "go_back", "source": "savepic", "dest": "start"},
     ],
     initial="user",
     auto_transitions=False,
@@ -182,6 +181,6 @@ def show_fsm():
 
 
 if __name__ == "__main__":
+    machine.get_graph().draw("fsm.png", prog="dot", format="png")
     port = os.environ.get("PORT", 8000)
     app.run(host="0.0.0.0", port=port, debug=True)
-    machine.get_graph().draw("fsm.png", prog="dot", format="png")
