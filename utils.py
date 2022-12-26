@@ -84,7 +84,7 @@ def send_button_carousel(reply_token):
                         ),
                         MessageTemplateAction(
                             label='返回主選單',
-                            text='返回主選單'
+                            text='主選單'
                         )
                     ]
                 ),
@@ -103,7 +103,7 @@ def send_button_carousel(reply_token):
                         ),
                         MessageTemplateAction(
                             label='返回主選單',
-                            text='返回主選單'
+                            text='主選單'
                         )
                     ]
                 ),
@@ -122,7 +122,7 @@ def send_button_carousel(reply_token):
                         ),
                         MessageTemplateAction(
                             label='返回主選單',
-                            text='返回主選單'
+                            text='主選單'
                         )
 
                     ]
@@ -142,7 +142,7 @@ def send_button_carousel(reply_token):
                         ),
                         MessageTemplateAction(
                             label='返回主選單',
-                            text='返回主選單'
+                            text='主選單'
                         )
                     ]
                 )
